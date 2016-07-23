@@ -8,7 +8,7 @@ This is a demo article for testing the first log.
 
 below is code of java,see if it's work.
 {% highlight java %}
-public class Person implement serializable{
+public class Person implement Serializable{
     private int name;
 
     public int getName(){
