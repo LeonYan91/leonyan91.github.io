@@ -1,0 +1,25 @@
+---
+layout: post
+title:  "Blog test!"
+date:   2016-07-23 14:40:33 +0800
+categories: jekyll update
+---
+This is a demo article for testing the first log.
+
+below is code of java,see if it's work.
+{% highlight java %}
+public class Person implement serializable{
+    private int name;
+
+    public int getName(){
+        return name;
+    }
+
+    /**
+    *   setting name
+    */
+    public int setName(int name){
+        this.name = name;
+    }
+}
+{% endhighlight %}
