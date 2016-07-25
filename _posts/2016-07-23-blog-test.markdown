@@ -24,12 +24,19 @@ public class Person implement Serializable{
 }
 {% endhighlight %}
 
-```javascript
-var i = 1;
-var testFun = function(value){
-    if(value == 1){
-        log.info('success');
+```java
+public class Person implement Serializable{
+    private int name;
+
+    public int getName(){
+        return name;
+    }
+
+    /**
+    *   setting name
+    */
+    public int setName(int name){
+        this.name = name;
     }
 }
-testFun(i);
 ```
