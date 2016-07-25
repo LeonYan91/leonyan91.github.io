@@ -3,7 +3,9 @@
 paginate: 10 # pagination based on number of posts
 paginate_path: "page:num"
 exclude: ["README.md"] # files to exclude
-highlighter: pygments
+#since gitgub currently only support type 'rouge' of highlighter
+#see more information on https://help.github.com/articles/page-build-failed-config-file-error/#fixing-highlighting-errors
+highlighter: rouge
 markdown: kramdown
 disqus: dbyll
 google_analytics: dbyll
