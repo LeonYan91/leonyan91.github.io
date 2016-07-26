@@ -9,14 +9,14 @@ highlighter: rouge
 markdown: kramdown
 disqus: dbyll
 google_analytics: dbyll
-title: dbyll
+title: LeonYan's Blog
 
 defaults:
   -
     scope:
       path: "" # empty string for all files
     values:
-      title: dbyll
+      title: LeonYan's Blog 1
 
 description: Stylish Jekyll Theme
 author:
