@@ -1,3 +1,12 @@
+---
+layout: post
+title:  "cordova教学"
+date:   2016-09-17 17:49:00 +0800
+categories: Frontend Mobile
+tag: JavaCore
+---
+
+
 # Cordova
 ---
 ### 什么是Cordova
