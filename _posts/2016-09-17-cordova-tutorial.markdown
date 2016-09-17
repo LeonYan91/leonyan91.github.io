@@ -50,7 +50,7 @@ Cordova是依托在npm，使用简单命令就可以完成项目的创建，管�
 
 ### 插件详解
 
-##### 安装插件
+#### 安装插件
 切换到cordova项目根目录，使用命令`cordova plugin add pluginID[@version]|directory|url[#commit-ish][:subdir]` ,可以使用`cordova plugin`查看安装成功的plugin。
 
 ##### 使用plugin
