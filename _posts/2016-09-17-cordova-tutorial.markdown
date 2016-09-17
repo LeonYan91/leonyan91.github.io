@@ -7,7 +7,7 @@ tag: JavaCore
 ---
 
 
-# Cordova
+# CORDOVA
 ---
 ### 什么是Cordova
 Cordova是开源手机开发框架，它允许你使用web开发的技术（html,js,css），开发跨平台的App。Cordova应该是包在目标平台的webview中的，可利用调用目标平台的（利用插件）api，来使用更复杂的功能。
@@ -42,15 +42,35 @@ Cordova是依托在npm，使用简单命令就可以完成项目的创建，管�
 ##### Cordova app的架构
 ![cordova app architecture](http://e.hiphotos.baidu.com/image/pic/item/9f2f070828381f302de9f632a1014c086f06f0bd.jpg)
 
-##### WebApp 
+##### WebApp
 这里我们前端代码（js,html,css）和资源存放的位置，也就是app业务代码存放的地方。可以说是cordova app最重要的地方。这些代码执行在我们平台包装的webView中，就像是一个内置的浏览器。
 
 ##### Plugins
 使用web技术开发的app功能很有限，无法调用到设备的很多功能，如摄像头，定位等。这时我们就需要一个可以在javascript中调用设备接口的方法。插件就是为了这个而存在的，通过插件，我们可以用javascript就调用到设备的功能。cordova官方有很多的核心插件，也有很多第三方的插件，当然也可以自己写。有了插件，可以说webapp和做到和原生app一样。所以插件是webapp中必不可少的一部分之一。
 
+### Cordova目录结构
+
+```
+myapp/
+|-- config.xml
+|-- hooks/
+|-- merges/
+| | |-- android/
+| | |-- windows/
+| | |-- ios/
+|-- www/
+|-- platforms/
+| |-- android/
+| |-- windows/
+| |-- ios/
+|-- plugins/
+  |--cordova-plugin-camera/
+```
+TODO 目录结构讲解 [documentation](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#directory-structure)
+
 ### 插件详解
 
-#### 安装插件
+##### 安装插件
 切换到cordova项目根目录，使用命令`cordova plugin add pluginID[@version]|directory|url[#commit-ish][:subdir]` ,可以使用`cordova plugin`查看安装成功的plugin。
 
 ##### 使用plugin
@@ -73,4 +93,58 @@ exec方法中的参数描述：
 * `service` 本地代码中的服务名,如android中，为类的名字。
 * `action` 本地代码service中的方法名.
 * `[/* arguments */]` 传入到本地代码中的参数数组.
+
+###### plugin描述文件
+先来看个简单的plugin.xml文件
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-device" version="0.2.3">
+    <name>Device</name>
+    <description>Cordova Device Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,device</keywords>
+    <js-module src="www/device.js" name="device">
+        <clobbers target="device" />
+    </js-module>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Device">
+                <param name="ios-package" value="CDVDevice"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/CDVDevice.h" />
+        <source-file src="src/ios/CDVDevice.m" />
+    </platform>
+</plugin>
+```
+
+TODO android plugin java代码讲解
+
+# IONIC
+---
+### 什么是Ionic
+Ionic是基于cordova的webapp框架，使用了angularjs。框架提供了css，js的组件。js组件利用了anguljar的强大指令功能使得开发便利，使用ionic提供的组件，使我们可以快速的开发更接近原生app的webapp。
+
+### 如何使用Ionic
+Ionic的使用方式和Cordova的方式基本相同。
+1. `npm install ionic -g` 安装
+2. `ionic start myapp [template]` 创建ionic项目 默认template为tabs
+3. `ionic platform add android` 添加平台
+4. `ionic run android`
+
+### Ionic CSS组件
+
+TODO CSS组件讲解
+
+### Ionic js组件
+
+TODO JS组件讲解
+
+# 移动端调试
+---
+TODO cordova debugging [documentation](https://cordova.apache.org/docs/en/latest/guide/next/index.html#debugging-cordova-apps)
+
+
+
 
