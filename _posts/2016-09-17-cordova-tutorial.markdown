@@ -3,14 +3,14 @@ layout: post
 title:  "cordova教学"
 date:   2016-09-17 17:49:00 +0800
 categories: Frontend Mobile
-tag: JavaCore
+tag: Mobile
 ---
 
 
 # CORDOVA
 ---
 ### 什么是Cordova
-Cordova是开源手机开发框架，它允许你使用web开发的技术（html,js,css），开发跨平台的App。Cordova应该是包在目标平台的webview中的，可利用调用目标平台的（利用插件）api，来使用更复杂的功能。
+Cordova是开源手机开发框架，它允许你使用web开发的技术（html,js,css），实现跨平台开发。Cordova是包在目标平台的Webview中的，可利用调用目标平台的（利用插件）api，来实现更复杂的功能。
 
 ### 优势和缺点
 Cordova的优点有：
@@ -27,7 +27,7 @@ Cordova是依托在npm，使用简单命令就可以完成项目的创建，管�
 
 ##### 使用cordova前需要安装的程序
 * [nodejs](https://nodejs.org) 安装完成后确保环境变量已配置进Path，可以使用npm命令。
-* 对应平台的SDK，如android
+* 对应平台的SDK，[查看文档](https://cordova.apache.org/docs/en/latest/guide/cli/index.html#install-pre-requisites-for-building)
 
 ##### 简单使用
 1. `npm install -g cordova` 安装cordova cli,-g为全局安装，不然只会安装到当前目录下
@@ -66,7 +66,39 @@ myapp/
 |-- plugins/
   |--cordova-plugin-camera/
 ```
-TODO 目录结构讲解 [documentation](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#directory-structure)
+
+##### config.xml
+你的Cordova项目描述文件，配置整个项目的行为。
+
+##### www/
+放置Cordova项目web资源的地方（html,js,css...），Cordova项目的开发基本都是在此目录下开展的。`www/`目录的资源会在build项目的时候，拷贝到各自`platform/`平台下，如`platforms/ios/www`或`platforms/android/assets/www`。因为cli总会从源目录www下拷贝资源，所以我们应该只编辑`www/`目录，而不要去动`platforms/`下面的www文件。
+
+##### platforms/
+包含所有添加到此Cordova项目的平台，平台的源代码，脚本文件等。
+> 不要去编辑此目录下文件，除非你知道你在干什么。此目录文件在cli build项目经常重写。
+
+##### plugins/
+添加的插件
+
+##### hooks/
+自定义的脚本行为，当你想要自定义cordova-cli 命令时。所有你添加到目录下的脚本，如果你执行的命令名和目录名相匹配，那么会在命令执行之前或后执行。如有`before_build`,`before_build`，对于的脚本会在执行`build`命令时执行。查看[Hooks文档](http://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html)。
+
+##### merges/
+平台指定的资源(js,html,css...)，存放在此目录对应平台目录下，在`build`项目时，对应平台会采用merges下的资源覆盖www的资源。
+举个简单的例子，假设我们项目有次目录结构：
+```
+merges/
+|-- ios/
+| -- app.js
+|-- android/
+| -- android.js
+www/
+-- app.js
+```
+在build项目后，android平台会有`app.js`,`android.js`，ios平台只会有`app.js`，但是这会是`marges/ios/`下的，而不是`www/`下的。
+
+
+目录结构讲解官方文档 [documentation](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html#directory-structure)
 
 ### 插件详解
 
@@ -99,51 +131,30 @@ exec方法中的参数描述：
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        id="cordova-plugin-device" version="0.2.3">
-    <name>Device</name>
-    <description>Cordova Device Plugin</description>
+        id="cordova-plugin-echo" version="0.0.1">
+    <name>echo</name>
+    <description>Echo Plugin</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,device</keywords>
-    <js-module src="www/device.js" name="device">
-        <clobbers target="device" />
+    <keywords>cordova,echo</keywords>
+    <js-module src="www/echo.js" name="echo">
+        <clobbers target="echo" />
     </js-module>
-    <platform name="ios">
+    <platform name="android">
         <config-file target="config.xml" parent="/*">
-            <feature name="Device">
-                <param name="ios-package" value="CDVDevice"/>
+            <feature name="Echo">
+                <param name="android-package" value="org.apache.cordova.plugin.Echo"/>
             </feature>
         </config-file>
-        <header-file src="src/ios/CDVDevice.h" />
-        <source-file src="src/ios/CDVDevice.m" />
+
+        <source-file src="src/android/Echo.java" target-dir="src/org/apache/cordova/plugin" />
     </platform>
 </plugin>
 ```
+描述文件中包含了`name`,`id`,`version`等描述插件身份的。而标签`<js-module>`和`<platform>`才是插件关键的地方。
 
 TODO android plugin java代码讲解
 
-# IONIC
----
-### 什么是Ionic
-Ionic是基于cordova的webapp框架，使用了angularjs。框架提供了css，js的组件。js组件利用了anguljar的强大指令功能使得开发便利，使用ionic提供的组件，使我们可以快速的开发更接近原生app的webapp。
 
-### 如何使用Ionic
-Ionic的使用方式和Cordova的方式基本相同。
-1. `npm install ionic -g` 安装
-2. `ionic start myapp [template]` 创建ionic项目 默认template为tabs
-3. `ionic platform add android` 添加平台
-4. `ionic run android`
-
-### Ionic CSS组件
-
-TODO CSS组件讲解
-
-### Ionic js组件
-
-TODO JS组件讲解
-
-# 移动端调试
----
-TODO cordova debugging [documentation](https://cordova.apache.org/docs/en/latest/guide/next/index.html#debugging-cordova-apps)
 
 
 
