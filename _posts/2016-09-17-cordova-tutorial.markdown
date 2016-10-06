@@ -81,7 +81,7 @@ myapp/
 添加的插件
 
 ##### hooks/
-自定义的脚本行为，当你想要自定义cordova-cli 命令时。所有你添加到目录下的脚本，如果你执行的命令名和目录名相匹配，那么会在命令执行之前或后执行。如有`before_build`,`before_build`，对于的脚本会在执行`build`命令时执行。查看[Hooks文档](http://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html)。
+自定义的脚本行为，当你想要自定义cordova-cli 命令时。所有你添加到目录下的脚本，如果你执行的命令名和目录名相匹配，那么会在命令执行之前或后执行。如有`before_build`,`after_build`，对于的脚本会在执行`build`命令时执行。查看[Hooks文档](http://cordova.apache.org/docs/en/latest/guide/appdev/hooks/index.html)。
 
 ##### merges/
 平台指定的资源(js,html,css...)，存放在此目录对应平台目录下，在`build`项目时，对应平台会采用merges下的资源覆盖www的资源。
@@ -152,7 +152,53 @@ exec方法中的参数描述：
 ```
 描述文件中包含了`name`,`id`,`version`等描述插件身份的。而标签`<js-module>`和`<platform>`才是插件关键的地方。
 
-TODO android plugin java代码讲解
+###### `<js-module>`
+`src`为js文件位置,`<clobbers>`中`target`属性的值，为插件绑定到`window`对象的值。上面这个例子，插件的接口是绑定在`window.echo`,上面的。如`cordova.plugin.camera`摄像头插件的`clobbers` `target`为`navigator.camera`。
+
+###### `<platform>`
+此标签是用于描述插件需要实现平台的本地代码，和配置、行为等。`<config-file>`的`target`属性指定需要替换的配置文件，`<platform>`下的子元素是会拷贝到目标文件的内容。`<source-file>`描述插件本地实现代码的文件位置。
+
+##### 插件本地实现，Android Echo.java
+将下面的代码放在`src/android/Echo.java`下，所有的插件实现代码，都是放在各自的`src`目录下的。
+```java
+package org.apache.cordova.plugin;
+
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * This class echoes a string called from JavaScript.
+ */
+public class Echo extends CordovaPlugin {
+
+    @Override
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        if (action.equals("echo")) {
+            String message = args.getString(0);
+            this.echo(message, callbackContext);
+            return true;
+        }
+        return false;
+    }
+
+    private void echo(String message, CallbackContext callbackContext) {
+        if (message != null && message.length() > 0) {
+            callbackContext.success(message);
+        } else {
+            callbackContext.error("Expected one non-empty string argument.");
+        }
+    }
+}
+```
+
+插件需要继承`org.apache.cordova.CordovaPlugin`类，重写`execute`方法，用于在javascript方调用`exec()`时调用，参数会从前端传过来。
+
+查看[官方文档](https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#echo-android-plugin-example)
+
 
 
 
