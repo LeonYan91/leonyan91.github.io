@@ -126,6 +126,18 @@ exec方法中的参数描述：
 * `action` 本地代码service中的方法名.
 * `[/* arguments */]` 传入到本地代码中的参数数组.
 
+查看下面的插件前端代码。必须调用`module.exports`将逻辑绑定到`clobbers`的`target`设定的值上。
+```javascript
+var exec = require('cordova/exec');
+
+module.exports = function(str, callback) {
+    cordova.exec(callback, function(err) {
+        callback('Nothing to echo.');
+    }, "Echo", "echo", [str]);
+};
+```
+
+
 ###### plugin描述文件
 先来看个简单的plugin.xml文件
 ```xml
@@ -158,7 +170,7 @@ exec方法中的参数描述：
 ###### `<platform>`
 此标签是用于描述插件需要实现平台的本地代码，和配置、行为等。`<config-file>`的`target`属性指定需要替换的配置文件，`<platform>`下的子元素是会拷贝到目标文件的内容。`<source-file>`描述插件本地实现代码的文件位置。
 
-##### 插件本地实现，Android Echo.java
+###### 插件本地实现，Android Echo.java
 将下面的代码放在`src/android/Echo.java`下，所有的插件实现代码，都是放在各自的`src`目录下的。
 ```java
 package org.apache.cordova.plugin;
@@ -198,6 +210,23 @@ public class Echo extends CordovaPlugin {
 插件需要继承`org.apache.cordova.CordovaPlugin`类，重写`execute`方法，用于在javascript方调用`exec()`时调用，参数会从前端传过来。
 
 查看[官方文档](https://cordova.apache.org/docs/en/latest/guide/platforms/android/plugin.html#echo-android-plugin-example)
+
+
+
+### 进阶学习
+Cordova是个非常强大框架，掌握了基本的Cordova Cli，项目构建、管理，以及插件使用后。还可以继续深入研究，开发出更健壮，理想的Cordova项目。
+##### 开发HybridApp
+Cordova项目最初是作为开发镶嵌在原生App中基于Web技术的Webview。如果你对它理解够深，也可以开发基于Cordova的Webview组件，然后和原生的组件部署成HybridApp。
+
+开发HybridApp你需要对目标平台的编码环境非常熟悉。下面是支持的平台文档：
+* [Android WebViews](https://cordova.apache.org/docs/en/latest/guide/platforms/android/webview.html)
+* [iOS WebViews](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/webview.html)
+* [Windows Phone 8.0 WebViews](https://cordova.apache.org/docs/en/latest/guide/platforms/wp8/webview.html)
+
+##### 下一步的学习
+[官方文档](https://cordova.apache.org/docs/en/latest/guide/next/index.html)
+
+
 
 
 
