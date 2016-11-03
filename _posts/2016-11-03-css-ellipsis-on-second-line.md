@@ -31,5 +31,5 @@ stackOverflow上面有很多的解决方案，我找到的一个最好的解决�
 
 其他有用的帖子
 
-* http://stackoverflow.com/questions/15909489/text-overflow-ellipsis-on-two-lines
-* http://codepen.io/martinwolf/pen/qlFdp
+* <http://stackoverflow.com/questions/15909489/text-overflow-ellipsis-on-two-lines>
+* <http://codepen.io/martinwolf/pen/qlFdp>
